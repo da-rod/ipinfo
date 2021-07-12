@@ -38,8 +38,10 @@ type location struct {
 }
 
 type ipinfo struct {
-	AS       as
-	Location location
+	IP        net.IP
+	Hostnames []string
+	AS        as
+	Location  location
 }
 
 func init() {
@@ -195,10 +197,17 @@ func getLocation(ip string) (location, error) {
 }
 
 func getIPInfo(ip string) (ipinfo, error) {
+	ipaddr := net.ParseIP(ip)
+	if ipaddr == nil {
+		return ipinfo{}, fmt.Errorf("invalid ip address %q", ip)
+	}
+	ptrs, _ := net.LookupAddr(ip)
 	asData, _ := getAS(ip)
 	loData, err := getLocation(ip)
 	return ipinfo{
-		asData,
-		loData,
+		IP:        net.ParseIP(ip),
+		Hostnames: ptrs,
+		AS:        asData,
+		Location:  loData,
 	}, err
 }
