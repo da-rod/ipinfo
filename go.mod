@@ -1,8 +1,10 @@
 module github.com/da-rod/ipinfo
 
-go 1.16
+go 1.27
+
+require github.com/oschwald/geoip2-golang/v2 v2.5.0
 
 require (
-	github.com/gin-gonic/gin v1.7.2
-	github.com/oschwald/geoip2-golang v1.5.0 // indirect
+	github.com/oschwald/maxminddb-golang/v2 v2.8.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 )
